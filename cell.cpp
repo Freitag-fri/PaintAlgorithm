@@ -1,4 +1,5 @@
 #include "cell.h"
+#include "mainwindow.h"
 
 Cell::Cell()
 {
@@ -14,6 +15,7 @@ int Cell::GetLife()
 
 int Cell::GetWidth()
 {
+
     return width;
 }
 
@@ -27,12 +29,24 @@ void Cell::SetLife(int life)
    this->life = life;
 }
 
-void Cell::SetWidth(int width)
-{
+void Cell::SetWidth(int width/*, int maxPosW*/)
+{/*
+    if(width > maxPosW)
+    {
+        this ->height = maxPosW;
+    }
+    else*/
+    life--;
     this ->width = width;
 }
 
-void Cell::SetHeight(int height)
+void Cell::SetHeight(int height/*, int maxPosH*/)
 {
+//    if(height > maxPosH)
+//    {
+//        this ->height = maxPosH;
+//    }
+//    else
+    life--;
     this ->height = height;
 }

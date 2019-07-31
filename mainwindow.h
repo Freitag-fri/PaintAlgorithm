@@ -20,13 +20,19 @@ public:
 
 
 private slots:
-    void on_pushButton_clicked();
+    void on_upButton_clicked();
+
+    void on_rightButton_clicked();
+
+    void on_downButton_clicked();
+
+    void on_leftButton_clicked();
 
 private:
     Ui::MainWindow *ui;
 
 
-    const static int width = 700;        //ширина окна
+    const static int width = 800;        //ширина окна
     const static int height = 650;       //высота окна
 
     const static int widthWorker = 600;        //ширина окна
@@ -34,7 +40,10 @@ private:
 
     const static int widthCell = 50;    //ширина ячейки
     const static int heightCell = 50;   //высота ячейки
-    int a[widthWorker/widthCell][heightWorker/heightCell] = {};
+
+    const static int maxPositionWidth = widthWorker/widthCell;
+    const static int maxPositionHeight = heightWorker/heightCell;
+    int arrPosition[maxPositionWidth][maxPositionHeight] = {};
 
     Cell testClass;
     Cell testClass2;
