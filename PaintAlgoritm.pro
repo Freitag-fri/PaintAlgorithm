@@ -27,7 +27,8 @@ CONFIG += c++11
 SOURCES += \
         cell.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        move.cpp
 
 HEADERS += \
         cell.h \

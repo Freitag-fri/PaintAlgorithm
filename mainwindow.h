@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <cell.h>
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -18,7 +19,6 @@ public:
     ~MainWindow();
     virtual void paintEvent(QPaintEvent *);
 
-
 private slots:
     void on_upButton_clicked();
 
@@ -27,6 +27,14 @@ private slots:
     void on_downButton_clicked();
 
     void on_leftButton_clicked();
+
+    void Up();
+    void Down();
+    void Left();
+    void Right();
+    void ChangArr(int index, int status);
+    int NextStatus(int GetWidthPosition, int GetHeightPosition);
+
 
 private:
     Ui::MainWindow *ui;

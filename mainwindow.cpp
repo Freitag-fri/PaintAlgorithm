@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     this->setFixedSize(width, height);
-
+arrPosition[5][6] = 3;
     ui->setupUi(this);
 }
 
@@ -17,10 +17,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent *)
 {
-
     QPainter paint(this);
     paint.setPen(Qt::blue);
     paint.drawRect(QRect(0, 0, widthWorker, heightWorker));        //рабочее поле
+
+    paint.setPen(Qt::red);
 
     paint.drawRect(QRect(widthCell*2, heightCell*2, widthCell*2, heightCell*2));
 
@@ -32,13 +33,9 @@ void MainWindow::paintEvent(QPaintEvent *)
         }
     }
 
-    //    for(int i = width -widthWorker; i<=width; i++)
-    //    {
-    //        for(int c = height - heightWorker ; c<=height; c++)
-    //        {
-    //            paint.drawPoint(i, c);
-    //        }
-    //    }
+    paint.setPen(Qt::green);
+    if (arrPosition[5][6] == 3)
+    paint.drawRect(QRect(widthCell*5, heightCell*6, widthCell, heightCell));
 
 
     QPainter painter(this);
@@ -51,44 +48,20 @@ void MainWindow::paintEvent(QPaintEvent *)
 
 void MainWindow::on_upButton_clicked()
 {
-    if(nClass[0].GetHeight()/50 > 0 && arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50 - 1] != 1)
-    {
-        arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50] = 0;
-        nClass[0].SetHeight(nClass[0].GetHeight() - heightCell);
-        arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50] = 2;
-    }
-    MainWindow::update();
+    Up();
 }
 
 void MainWindow::on_rightButton_clicked()
 {
-    if(nClass[0].GetWidth()/50 < maxPositionWidth-1  && arrPosition[nClass[0].GetWidth()/50 +1][nClass[0].GetHeight()/50] != 1)
-    {
-        arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50] = 0;
-        nClass[0].SetWidth(nClass[0].GetWidth() + widthCell);
-        arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50] = 2;
-    }
-    MainWindow::update();
+    Right();
 }
 
 void MainWindow::on_downButton_clicked()
 {
-    if(nClass[0].GetHeight()/50 < maxPositionWidth-1  && arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50 + 1] != 1)
-    {
-        arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50] = 0;
-        nClass[0].SetHeight(nClass[0].GetHeight() + heightCell);
-        arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50] = 2;
-    }
-    MainWindow::update();
+    Down();
 }
 
 void MainWindow::on_leftButton_clicked()
 {
-    if(nClass[0].GetWidth()/50 > 0  && arrPosition[nClass[0].GetWidth()/50 -1][nClass[0].GetHeight()/50] != 1)
-    {
-        arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50] = 0;
-        nClass[0].SetWidth(nClass[0].GetWidth() - widthCell);
-        arrPosition[nClass[0].GetWidth()/50][nClass[0].GetHeight()/50] = 2;
-    }
-    MainWindow::update();
+    Left();
 }
