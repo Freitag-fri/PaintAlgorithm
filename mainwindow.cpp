@@ -5,8 +5,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    this->setFixedSize(width, height);
-arrPosition[5][6] = 3;
+    srand(time(0));                     //сбрасывает рандомные числа
+    this->setFixedSize(width, height);  //пиксирование размеров окна
+    FirstInstallElement();              //установка элементов
+
     ui->setupUi(this);
 }
 
@@ -21,47 +23,114 @@ void MainWindow::paintEvent(QPaintEvent *)
     paint.setPen(Qt::blue);
     paint.drawRect(QRect(0, 0, widthWorker, heightWorker));        //рабочее поле
 
-    paint.setPen(Qt::red);
-
-    paint.drawRect(QRect(widthCell*2, heightCell*2, widthCell*2, heightCell*2));
-
-    for (int i = widthCell*4/50; i > widthCell*2/50; i--)
+    for (int i = 0; i < maxPositionWidth; i++)                  //закрашиваем поле
     {
-        for (int c = heightCell*4/50; c > heightCell*2/50; c--)
+        for (int c = 0; c < maxPositionHeight; c++)
         {
-           arrPosition[i-1][c-1] = 1;
+            if (arrPosition[i][c] == cageNull) continue;
+            else if (arrPosition[i][c] == cageObj) paint.setPen(Qt::black);
+            else if (arrPosition[i][c] == cageLet) paint.setPen(Qt::red);
+            else if (arrPosition[i][c] == cageFood) paint.setPen(Qt::green);
+            paint.drawRect(QRect(i*widthCell, c*heightCell, widthCell, heightCell));
         }
     }
 
-    paint.setPen(Qt::green);
-    if (arrPosition[5][6] == 3)
-    paint.drawRect(QRect(widthCell*5, heightCell*6, widthCell, heightCell));
+    for (int i = 0; i < quantityCell; i++)
+    {
+        //         if (!CellObj[i]->GetHealth()) continue;
+        //         paint.drawRect(QRect(CellObj[i]->GetWidth(), CellObj[i]->GetHeight(), widthCell, heightCell));
+        if (CellObj[i]->GetLife())
+        paint.drawText(CellObj[i]->GetWidth()+widthCell/2, CellObj[i]->GetHeight()+heightCell/2, QString::number(CellObj[i]->GetHealth()));
+    }
 
-
-    QPainter painter(this);
-    // for (int i = 0; i<2; i++)
-    painter.drawRect(QRect(nClass[0].GetWidth(), nClass[0].GetHeight(), widthCell, heightCell));
-    painter.drawText(nClass[0].GetWidth()+widthCell/2, nClass[0].GetHeight()+heightCell/2, QString::number(nClass[0].GetLife()));
 
 
 }
 
 void MainWindow::on_upButton_clicked()
 {
-    Up();
+   // Up(0);
+    int n = 0;
+    while(n < 5)
+    {
+        MotionOption();
+        MainWindow::update();
+        QApplication::processEvents();
+        Sleep(1000);
+        n ++;}
+    MainWindow::update();
 }
 
 void MainWindow::on_rightButton_clicked()
 {
-    Right();
+     Right(0);
+     MainWindow::update();
 }
 
 void MainWindow::on_downButton_clicked()
 {
-    Down();
+     Down(0);
+     MainWindow::update();
 }
 
 void MainWindow::on_leftButton_clicked()
 {
-    Left();
+        Left(0);
+        MainWindow::update();
+}
+
+void MainWindow::FirstInstallElement()
+{
+    SetLet();
+    SetObj();
+    SetLet();
+    SetFood();
+}
+
+void MainWindow::SetLet()
+{
+    for (int i = 2; i < 4; i++)
+    {
+        for (int c = 2; c < 4; c++)
+        {
+            arrPosition[i][c] = cageLet;
+        }
+    }
+}
+
+void MainWindow::SetObj()
+{
+    int widthRand;
+    int heightRand;
+    for (int i = 0; i < quantityCell; i++)
+    {
+        do
+        {
+            widthRand = rand() %12;
+            heightRand = rand() %12;
+        }
+        while(arrPosition[widthRand][heightRand] != cageNull);
+
+        arrPosition[widthRand][heightRand] = cageObj;
+        Cell *test = new Cell(widthRand, heightRand, widthCell);
+        CellObj[i] = test;
+    }
+}
+
+void MainWindow::SetFood()
+{
+    int widthRand;
+    int heightRand;
+    for (int i = 0; i < 3; i++)
+    {
+        do
+        {
+            widthRand = rand() %12;
+            heightRand = rand() %12;
+        }
+        while(arrPosition[widthRand][heightRand] != cageNull);
+
+        arrPosition[widthRand][heightRand] = cageFood;
+
+    }
 }

@@ -1,20 +1,24 @@
 #include "cell.h"
 #include "mainwindow.h"
 
-Cell::Cell()
+Cell::Cell(int widthPosition, int heightPosition, int sizeCell)
 {
-    widthPosition = 0;
-    heightPosition = 0;
-    width = 0;
-    height = 0;
-    life = 50;
+    this -> widthPosition = widthPosition;
+    this -> heightPosition = heightPosition;
+    width = widthPosition * sizeCell;
+    height = heightPosition * sizeCell;
+    health = 5 ;
+    life = true;
 }
 
-
-
-int Cell::GetLife()
+int Cell::RandMove()
 {
-    return life;
+    return rand() %5;
+}
+
+int Cell::GetHealth()
+{
+    return health;
 }
 
 int Cell::GetWidth()
@@ -37,21 +41,41 @@ int Cell::GetWidthPos()
     return widthPosition;
 }
 
-void Cell::SetLife(int life)
+void Cell::HealtUp(/*int Healt*/)
 {
-   this->life = life;
+   health += 11;
+}
+
+void Cell::HealtDown(int health)
+{
+    this->health -= health;
+    if(this ->health == 0)
+    {
+        life = false;
+    }
+}
+
+bool Cell::GetLife()
+{
+    return life;
 }
 
 void Cell::SetWidth(int width, int widthCell)
 {
-    widthPosition = width/widthCell;
-    life--;
+    widthPosition = width/widthCell;  
     this ->width = width;
+    HealtDown(1);
+
+//    if (health <=0)
+//        life = false;
 }
 
 void Cell::SetHeight(int height, int heightCell)
 {
     heightPosition = height/heightCell;
-    life--;
     this ->height = height;
+    HealtDown(1);
+
+//    if (health <=0)
+//        life = false;
 }

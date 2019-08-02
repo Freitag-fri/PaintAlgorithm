@@ -7,26 +7,33 @@ class Cell
 {
 
 public:
-    Cell();
+    Cell(int widthPosition, int heightPosition, int sizeCell);
 
     void SetWidth(int width, int widthCell);
 
     void SetHeight(int height, int heightCell);
-    void SetLife(int life);
+
+    void HealtUp(/*int health*/);
+    void HealtDown(int health);
 
 
     int GetWidthPos();
     int GetHeightPos();
     int GetWidth();
     int GetHeight();
-    int GetLife();
+    int GetHealth();
+    bool GetLife();
+
+    int RandMove();
 
 private:
     int width;
     int height;
-    int life;
+    int health;
     int widthPosition;
     int heightPosition;
+
+    bool life;
 
 };
 
