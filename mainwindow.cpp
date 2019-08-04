@@ -40,7 +40,7 @@ void MainWindow::paintEvent(QPaintEvent *)
         //         if (!CellObj[i]->GetHealth()) continue;
         //         paint.drawRect(QRect(CellObj[i]->GetWidth(), CellObj[i]->GetHeight(), widthCell, heightCell));
         if (CellObj[i]->GetLife())
-        paint.drawText(CellObj[i]->GetWidth()+widthCell/2, CellObj[i]->GetHeight()+heightCell/2, QString::number(CellObj[i]->GetHealth()));
+            paint.drawText(CellObj[i]->GetWidth()+widthCell/2, CellObj[i]->GetHeight()+heightCell/2, QString::number(CellObj[i]->GetHealth()));
     }
 
 
@@ -49,34 +49,34 @@ void MainWindow::paintEvent(QPaintEvent *)
 
 void MainWindow::on_upButton_clicked()
 {
-   // Up(0);
+    // Up(0);
     int n = 0;
     while(n < 5)
     {
         MotionOption();
         MainWindow::update();
         QApplication::processEvents();
-        Sleep(1000);
+        Sleep(100);
         n ++;}
     MainWindow::update();
 }
 
 void MainWindow::on_rightButton_clicked()
 {
-     Right(0);
-     MainWindow::update();
+    Right(0);
+    MainWindow::update();
 }
 
 void MainWindow::on_downButton_clicked()
 {
-     Down(0);
-     MainWindow::update();
+    Down(0);
+    MainWindow::update();
 }
 
 void MainWindow::on_leftButton_clicked()
 {
-        Left(0);
-        MainWindow::update();
+    Left(0);
+    MainWindow::update();
 }
 
 void MainWindow::FirstInstallElement()
@@ -84,7 +84,8 @@ void MainWindow::FirstInstallElement()
     SetLet();
     SetObj();
     SetLet();
-    SetFood();
+    for (int i = 0; i < 3; i++)
+        SetFood();
 }
 
 void MainWindow::SetLet()
@@ -121,8 +122,7 @@ void MainWindow::SetFood()
 {
     int widthRand;
     int heightRand;
-    for (int i = 0; i < 3; i++)
-    {
+
         do
         {
             widthRand = rand() %12;
@@ -132,5 +132,4 @@ void MainWindow::SetFood()
 
         arrPosition[widthRand][heightRand] = cageFood;
 
-    }
 }

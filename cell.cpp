@@ -7,7 +7,7 @@ Cell::Cell(int widthPosition, int heightPosition, int sizeCell)
     this -> heightPosition = heightPosition;
     width = widthPosition * sizeCell;
     height = heightPosition * sizeCell;
-    health = 5 ;
+    health = 40 ;
     life = true;
 }
 

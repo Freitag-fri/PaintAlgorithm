@@ -37,7 +37,11 @@ bool MainWindow::Up(int i)
 
     if(CellObj[i]->GetHeightPos() > 0 && next != cageLet && next != cageObj)
     {
-        if(next == cageFood) CellObj[i]->HealtUp();;
+        if(next == cageFood)
+        {
+            CellObj[i]->HealtUp();
+            SetFood();
+        }
 
         ChangArr(i, cageNull);
         CellObj[i]->SetHeight(CellObj[i]->GetHeight() - heightCell, heightCell);
@@ -57,7 +61,11 @@ bool MainWindow::Down(int i)
 
     if(CellObj[i]->GetHeightPos() < maxPositionWidth-1  && next != cageLet && next != cageObj)
     {
-        if(next == cageFood) CellObj[i]->HealtUp();
+        if(next == cageFood)
+        {
+            CellObj[i]->HealtUp();
+            SetFood();
+        }
 
         ChangArr(i, cageNull);
         CellObj[i]->SetHeight(CellObj[i]->GetHeight() + heightCell, heightCell);
@@ -77,7 +85,11 @@ bool MainWindow::Right(int i)
 
     if(CellObj[i]->GetWidthPos() < maxPositionWidth-1  && next != cageLet && next != cageObj)
     {
-        if(next == cageFood) CellObj[i]->HealtUp();;
+        if(next == cageFood)
+        {
+            CellObj[i]->HealtUp();
+            SetFood();
+        }
 
         ChangArr(i, cageNull);
         CellObj[i]->SetWidth(CellObj[i]->GetWidth() + widthCell, widthCell);
@@ -97,7 +109,11 @@ bool MainWindow::Left(int i)
 
     if(CellObj[i]->GetWidthPos() > 0  && next != cageLet && next != cageObj)
     {
-        if(next == cageFood) CellObj[i]->HealtUp();;
+        if(next == cageFood)
+        {
+            CellObj[i]->HealtUp();
+            SetFood();
+        }
 
         ChangArr(i, cageNull);
         CellObj[i]->SetWidth(CellObj[i]->GetWidth() - widthCell, widthCell);
