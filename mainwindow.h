@@ -41,8 +41,9 @@ private slots:
 
     void FirstInstallElement();     //задание координат элементов
     void SetLet();
-    void SetObj();
+    void SetObj(int pos);
     void SetFood();
+    void Breed();                   //новое поколение
 
 private:
     Ui::MainWindow *ui;

@@ -5,9 +5,12 @@ void MainWindow::MotionOption()
 {  bool hod = false;
    for(int i = 0; i < quantityCell; i++)
    {
-       if(CellObj[i]->GetHealth() == 0)  //жив ли обект
-           //arrPosition[CellObj[i]->GetWidthPos()][CellObj[i]->GetHeightPos()] = cageNull;
-           CellObj[i]->HealtDown(2);
+       if(CellObj[i]->GetDeadCell())
+       {
+            Breed();
+           break;
+       }
+
         if(!CellObj[i]->GetLife())  //жив ли обект
             continue;
 

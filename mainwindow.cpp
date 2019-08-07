@@ -51,20 +51,23 @@ void MainWindow::on_upButton_clicked()
 {
     // Up(0);
     int n = 0;
-    while(n < 5)
+    while(true)
     {
         MotionOption();
         MainWindow::update();
         QApplication::processEvents();
         Sleep(100);
-        n ++;}
+        n ++;
+    }
     MainWindow::update();
 }
 
 void MainWindow::on_rightButton_clicked()
 {
-    Right(0);
+    //Right(0);
     MainWindow::update();
+    Breed();
+
 }
 
 void MainWindow::on_downButton_clicked()
@@ -82,7 +85,8 @@ void MainWindow::on_leftButton_clicked()
 void MainWindow::FirstInstallElement()
 {
     SetLet();
-    SetObj();
+    for (int i = 0; i < quantityCell; i++)
+        SetObj(i);
     SetLet();
     for (int i = 0; i < 3; i++)
         SetFood();
@@ -99,23 +103,21 @@ void MainWindow::SetLet()
     }
 }
 
-void MainWindow::SetObj()
+void MainWindow::SetObj(int pos)
 {
     int widthRand;
     int heightRand;
-    for (int i = 0; i < quantityCell; i++)
-    {
-        do
-        {
-            widthRand = rand() %12;
-            heightRand = rand() %12;
-        }
-        while(arrPosition[widthRand][heightRand] != cageNull);
 
-        arrPosition[widthRand][heightRand] = cageObj;
-        Cell *test = new Cell(widthRand, heightRand, widthCell);
-        CellObj[i] = test;
+    do
+    {
+        widthRand = rand() %12;
+        heightRand = rand() %12;
     }
+    while(arrPosition[widthRand][heightRand] != cageNull);
+
+    arrPosition[widthRand][heightRand] = cageObj;
+    Cell *test = new Cell(widthRand, heightRand, widthCell);
+    CellObj[pos] = test;
 }
 
 void MainWindow::SetFood()
@@ -123,13 +125,34 @@ void MainWindow::SetFood()
     int widthRand;
     int heightRand;
 
-        do
+    do
+    {
+        widthRand = rand() %12;
+        heightRand = rand() %12;
+    }
+    while(arrPosition[widthRand][heightRand] != cageNull);
+
+    arrPosition[widthRand][heightRand] = cageFood;
+}
+
+void MainWindow::Breed()        //новое поколение
+{
+    Cell testOBg[5];
+    for (int i = 0, n = 0; i < 5; n++)
+    {
+        if (CellObj[n]->GetLife())
         {
-            widthRand = rand() %12;
-            heightRand = rand() %12;
+            arrPosition[CellObj[n]->GetWidthPos()][CellObj[n]->GetHeightPos()] = cageNull;
+            testOBg[i] = *CellObj[n];
+            i++;
         }
-        while(arrPosition[widthRand][heightRand] != cageNull);
+    }
 
-        arrPosition[widthRand][heightRand] = cageFood;
-
+    for (int i = 0; i < 25; i++)
+    {
+        *CellObj[i] = testOBg[i/5];
+        SetObj(i);
+    }
+    CellObj[0]->deadCell = 0;
+    MainWindow::update();
 }

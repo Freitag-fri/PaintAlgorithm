@@ -8,6 +8,8 @@ class Cell
 
 public:
     Cell(int widthPosition, int heightPosition, int sizeCell);
+    Cell();
+
 
     void SetWidth(int width, int widthCell);
 
@@ -17,14 +19,25 @@ public:
     void HealtDown(int health);
 
 
+
     int GetWidthPos();
     int GetHeightPos();
     int GetWidth();
     int GetHeight();
     int GetHealth();
+    bool GetDeadCell();
     bool GetLife();
 
     int RandMove();
+
+    static int deadCell;
+
+    Cell& operator =(Cell& obj) // Оператор присваивания
+        {
+            this->life = obj.life;
+            this->health = obj.health;
+            return *this;
+        }
 
 private:
     int width;
@@ -33,7 +46,9 @@ private:
     int widthPosition;
     int heightPosition;
 
-    bool life;
+          //количесво умерших обектов
+
+    bool life;                  //жив или нет обект
 
 };
 

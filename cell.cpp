@@ -11,6 +11,13 @@ Cell::Cell(int widthPosition, int heightPosition, int sizeCell)
     life = true;
 }
 
+Cell::Cell()
+{
+
+}
+
+int Cell::deadCell = 0;     //иницилизация статической переменной
+
 int Cell::RandMove()
 {
     return rand() %5;
@@ -41,10 +48,19 @@ int Cell::GetWidthPos()
     return widthPosition;
 }
 
+bool Cell::GetDeadCell()
+{
+    if (deadCell == 20)
+        return true;
+    else
+        return false;
+}
+
 void Cell::HealtUp(/*int Healt*/)
 {
    health += 11;
 }
+
 
 void Cell::HealtDown(int health)
 {
@@ -52,6 +68,7 @@ void Cell::HealtDown(int health)
     if(this ->health == 0)
     {
         life = false;
+        deadCell++;
     }
 }
 
@@ -79,3 +96,6 @@ void Cell::SetHeight(int height, int heightCell)
 //    if (health <=0)
 //        life = false;
 }
+
+
+
