@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     FirstInstallElement();              //установка элементов
 
     ui->setupUi(this);
+
+    int test;
 }
 
 MainWindow::~MainWindow()
