@@ -7,6 +7,10 @@
 #include <time.h>
 #include <windows.h>
 
+enum obje {cageNull = 1, cageLet, cageObj, cageFood};   //обекты
+enum Act {actStand, actMove, actLook, actgGrab};    //возможные действия
+enum direction {N_ = 1, NE_, E_, SE_, S_, SW_, W_, NW_};
+
 namespace Ui {
 class MainWindow;
 }
@@ -30,10 +34,15 @@ private slots:
     void on_leftButton_clicked();
 
 
-    bool Up(int i);
-    bool Down(int i);
-    bool Left(int i);
-    bool Right(int i);
+    int N (int i);          //напраление по компасу
+    int NE(int i);
+    int E (int i);
+    int SE(int i);
+    int S (int i);
+    int SW(int i);
+    int W (int i);
+    int NW(int i);
+
     void ChangArr(int index, int status);
     int NextStatus(int GetWidthPosition, int GetHeightPosition);
 
@@ -48,12 +57,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    const short cageNull = 0;           //пустая клетка
-    const short cageLet = 1;            //препядствие
-    const short cageObj = 2;            //клетка с обектом
-    const short cageFood = 3;           //клетка с едой
-
-
+    //const short cageNull = 0;           //пустая клетка
+   //const short cageLet = 1;            //препядствие
+   // const short cageObj = 2;            //клетка с обектом
+    //const short cageFood = 3;           //клетка с едой
 
 
     const int width = 800;        //ширина окна
@@ -67,7 +74,7 @@ private:
 
     const static int maxPositionWidth = widthWorker/widthCell;
     const static int maxPositionHeight = heightWorker/heightCell;
-    int arrPosition[maxPositionWidth][maxPositionHeight] = {};
+    int arrPosition[maxPositionWidth][maxPositionHeight];
 
     const static int quantityCell = 25;         //количесво обектов
     Cell *CellObj[quantityCell];

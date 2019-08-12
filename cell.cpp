@@ -3,6 +3,12 @@
 
 Cell::Cell(int widthPosition, int heightPosition, int sizeCell)
 {
+    for (int i = 0; i < sizeArrAct; i++)
+    {
+      arrAct[i] = rand()% sizeArrAct;     //заполнение массива случайными действиями
+    }
+
+    currentPos = 0;
     this -> widthPosition = widthPosition;
     this -> heightPosition = heightPosition;
     width = widthPosition * sizeCell;
@@ -20,7 +26,25 @@ int Cell::deadCell = 0;     //иницилизация статической п
 
 int Cell::RandMove()
 {
-    return rand() %5;
+    if(currentPos == 0)         //стоять на месте
+    {
+        HealtDown(1);
+        currentPos++;
+        return 0;
+    }
+    else if (currentPos <= 8)    //движение
+    {}
+    else if (currentPos <= 16)    //посмотреть
+    {}
+    else if (currentPos <= 24)    //взять
+    {}
+
+    //return rand() %5;
+}
+
+void Cell::NextObj(int obj)
+{
+
 }
 
 int Cell::GetHealth()

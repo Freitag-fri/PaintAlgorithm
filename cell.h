@@ -30,6 +30,8 @@ public:
 
     int RandMove();
 
+    void NextObj(int obj);
+
     static int deadCell;
 
     Cell& operator =(Cell& obj) // Оператор присваивания
@@ -45,11 +47,14 @@ private:
     int health;
     int widthPosition;
     int heightPosition;
+    int currentPos;             //слудующий элемент в массиве
 
-          //количесво умерших обектов
 
     bool life;                  //жив или нет обект
 
+
+    static const int sizeArrAct = 50;
+    int arrAct[sizeArrAct];
 };
 
 #endif // CELL_H

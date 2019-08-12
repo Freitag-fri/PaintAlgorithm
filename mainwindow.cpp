@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-    int test;
 }
 
 MainWindow::~MainWindow()
@@ -86,6 +85,14 @@ void MainWindow::on_leftButton_clicked()
 
 void MainWindow::FirstInstallElement()
 {
+    for(int i = 0; i < maxPositionWidth; i++)
+    {
+        for(int c = 0; c < maxPositionHeight; c++)
+        {
+            arrPosition[i][c] = cageNull;
+        }
+    }
+
     SetLet();
     for (int i = 0; i < quantityCell; i++)
         SetObj(i);
