@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+int MainWindow::arrPosition[maxPositionWidth][maxPositionHeight];       //поределение статического массива позиций поля
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -41,7 +42,7 @@ void MainWindow::paintEvent(QPaintEvent *)
         //         if (!CellObj[i]->GetHealth()) continue;
         //         paint.drawRect(QRect(CellObj[i]->GetWidth(), CellObj[i]->GetHeight(), widthCell, heightCell));
         if (CellObj[i]->GetLife())
-            paint.drawText(CellObj[i]->GetWidth()+widthCell/2, CellObj[i]->GetHeight()+heightCell/2, QString::number(CellObj[i]->GetHealth()));
+            paint.drawText(CellObj[i]->GetWidthPos()*widthCell+widthCell/2, CellObj[i]->GetHeightPos()*heightCell+heightCell/2, QString::number(CellObj[i]->GetHealth()));
     }
 
 
@@ -51,16 +52,15 @@ void MainWindow::paintEvent(QPaintEvent *)
 void MainWindow::on_upButton_clicked()
 {
     // Up(0);
-    int n = 0;
     while(true)
     {
         MotionOption();
         MainWindow::update();
         QApplication::processEvents();
         Sleep(100);
-        n ++;
+
     }
-    MainWindow::update();
+
 }
 
 void MainWindow::on_rightButton_clicked()
@@ -73,13 +73,13 @@ void MainWindow::on_rightButton_clicked()
 
 void MainWindow::on_downButton_clicked()
 {
-    Down(0);
+   // Down(0);
     MainWindow::update();
 }
 
 void MainWindow::on_leftButton_clicked()
 {
-    Left(0);
+   // Left(0);
     MainWindow::update();
 }
 
@@ -96,7 +96,7 @@ void MainWindow::FirstInstallElement()
     SetLet();
     for (int i = 0; i < quantityCell; i++)
         SetObj(i);
-    SetLet();
+
     for (int i = 0; i < 3; i++)
         SetFood();
 }
@@ -108,6 +108,15 @@ void MainWindow::SetLet()
         for (int c = 2; c < 4; c++)
         {
             arrPosition[i][c] = cageLet;
+        }
+    }
+
+    for(int i = 0; i <maxPositionWidth; i++)
+    {
+        for(int c = 0; c < maxPositionHeight; c+=maxPositionHeight-1)
+        {
+          arrPosition[i][c] = cageLet;
+          arrPosition[c][i] = cageLet;
         }
     }
 }

@@ -8,7 +8,7 @@
 #include <windows.h>
 
 enum obje {cageNull = 1, cageLet, cageObj, cageFood};   //обекты
-enum Act {actStand, actMove, actLook, actgGrab};    //возможные действия
+
 enum direction {N_ = 1, NE_, E_, SE_, S_, SW_, W_, NW_};
 
 namespace Ui {
@@ -26,13 +26,9 @@ public:
 
 private slots:
     void on_upButton_clicked();
-
     void on_rightButton_clicked();
-
     void on_downButton_clicked();
-
     void on_leftButton_clicked();
-
 
     int N (int i);          //напраление по компасу
     int NE(int i);
@@ -42,6 +38,8 @@ private slots:
     int SW(int i);
     int W (int i);
     int NW(int i);
+
+    int Route( int obj, int index, int *Width, int *Height);
 
     void ChangArr(int index, int status);
     int NextStatus(int GetWidthPosition, int GetHeightPosition);
@@ -72,12 +70,23 @@ private:
     const static int widthCell = 50;    //ширина ячейки
     const static int heightCell = 50;   //высота ячейки
 
-    const static int maxPositionWidth = widthWorker/widthCell;
+    const static int maxPositionWidth = widthWorker/widthCell;          //количесво ячеек
     const static int maxPositionHeight = heightWorker/heightCell;
-    int arrPosition[maxPositionWidth][maxPositionHeight];
 
-    const static int quantityCell = 25;         //количесво обектов
+
+
+    const static int quantityCell = 5;         //количесво обектов
     Cell *CellObj[quantityCell];
+
+    //const static int routeWidth[8]  ={0, 1, 1, 1, 0, -1, -1, -1};     // ->
+    //const static int routeHeight[8] ={-1, -1, 0, 1, 1, 1, 0, -1};    // ↓
+
+    const int routeWidth[8] = {0, 1, 1, 1, 0, -1, -1, -1};     // ->
+    const int routeHeight[8] ={-1, -1, 0, 1, 1, 1, 0, -1};    // ↓
+
+
+public:
+     static int arrPosition[maxPositionWidth][maxPositionHeight];
 };
 
 #endif // MAINWINDOW_H

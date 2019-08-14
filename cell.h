@@ -17,7 +17,7 @@ public:
 
     void HealtUp(/*int health*/);
     void HealtDown(int health);
-
+    void Move(int nextObj, int width, int height);
 
 
     int GetWidthPos();
@@ -27,10 +27,14 @@ public:
     int GetHealth();
     bool GetDeadCell();
     bool GetLife();
+    bool GetMoveIsOver();
+    void SetMoveIsOver(bool n);
 
     int RandMove();
 
-    void NextObj(int obj);
+    void NextObj(int obj, int , int);
+
+
 
     static int deadCell;
 
@@ -42,18 +46,24 @@ public:
         }
 
 private:
+    enum act {actStand, actMove, actLook, actgGrab, actPass};    //возможные действия
+    int act;                    //кокое действие обект совершает
     int width;
     int height;
     int health;
     int widthPosition;
     int heightPosition;
     int currentPos;             //слудующий элемент в массиве
+    void AddCurrentPos(int val);
+
+
 
 
     bool life;                  //жив или нет обект
+    bool moveIsOver;            // закончен ход
 
 
-    static const int sizeArrAct = 50;
+    static const int sizeArrAct = 25;
     int arrAct[sizeArrAct];
 };
 
