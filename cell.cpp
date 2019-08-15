@@ -36,29 +36,28 @@ void Cell::SetObj()
 int Cell::RandMove()
 {
     int tempCurrentPos = 0;
-    if(arrAct[currentPos] == 0)         //стоять на месте
-    {
-        act = actStand;
-    }
-    else if (arrAct[currentPos] <= 8)    //движение
+//    if(arrAct[currentPos] == 0)         //стоять на месте
+//    {
+//        act = actStand;
+//    }
+    /*else*/ if (arrAct[currentPos] < 8)    //движение
     {
         act = actMove;
-        tempCurrentPos = arrAct[currentPos] - 1;
+        tempCurrentPos = arrAct[currentPos];
     }
-    else if (arrAct[currentPos] <= 16)    //посмотреть
+    else if (arrAct[currentPos] < 16)    //посмотреть
     {
         act = actLook;
-        tempCurrentPos = arrAct[currentPos] - 9;
+        tempCurrentPos = arrAct[currentPos] - 8;
     }
-    else if (arrAct[currentPos] <= 24)    //взять
+    else if (arrAct[currentPos] < 24)    //взять
     {
         act = actgGrab;
-        tempCurrentPos = arrAct[currentPos] - 17;
+        tempCurrentPos = arrAct[currentPos] - 16;
     }
-//    else
-//    {   act =actPass;
-//        AddCurrentPos(arrAct[currentPos]);
-//    }
+    else
+    {   act =actPass;
+    }
 
     return tempCurrentPos;
 }
@@ -66,13 +65,13 @@ int Cell::RandMove()
 void Cell::NextObj(int obj, int width, int height)
 {
     numberPasses ++;
-    if (act == actStand)
-    {
-        moveIsOver = true;
-        currentPos = AddCurrentPos(1, currentPos);       //увеличение позиции массива на 1
-        HealtDown(1);
-    }
-    else if (act == actMove)
+//    if (act == actStand)
+//    {
+//        moveIsOver = true;
+//        currentPos = AddCurrentPos(1, currentPos);       //увеличение позиции массива на 1
+//        HealtDown(1);
+//    }
+    /*else */if (act == actMove)
     {
         currentPos = AddCurrentPos(obj, currentPos);
         moveIsOver = true;
@@ -90,7 +89,10 @@ void Cell::NextObj(int obj, int width, int height)
         Grab (obj, width, height);
         HealtDown(1);
     }
-    //else if (act == actPass){}
+    else if (act == actPass)
+    {
+      currentPos = AddCurrentPos(arrAct[obj], currentPos);
+    }
 }
 
 void Cell::Move(int nextObj, int width, int height)
@@ -99,7 +101,7 @@ void Cell::Move(int nextObj, int width, int height)
     {
         if ( nextObj == cageFood)
         {
-            HealtUp(10);
+            HealtUp(15);
             AddFood();
         }
         MainWindow::arrPosition[widthPosition][heightPosition]=cageNull;
@@ -113,7 +115,7 @@ void Cell::Grab (int nextObj, int width, int heigh)
 {
     if (nextObj == cageFood)
     {
-        HealtUp(10);
+        HealtUp(15);
         AddFood();
         MainWindow::arrPosition[widthPosition+width][heightPosition+heigh]=cageNull;
     }
@@ -151,7 +153,7 @@ int Cell::GetWidthPos()
 
 bool Cell::GetDeadCell()
 {
-    if (deadCell == 20)
+    if (deadCell == 80)
         return true;
     else
         return false;
@@ -165,7 +167,7 @@ void Cell::HealtUp(int healt)
 void Cell::HealtDown(int health)
 {
     this->health -= health;
-    if(this ->health <= 0)
+    if(this->health <= 0)
     {
         life = false;
         MainWindow::arrPosition[widthPosition][heightPosition]=cageNull;
@@ -219,8 +221,7 @@ void Cell::SetHeightPos(int heightPosition)
 
 int Cell::AddCurrentPos(int addVal, int val)
 {
-    int temp = val;
-    temp += addVal;
+    int temp = val+addVal;
     if (temp > sizeArrAct-1)
     {
       temp -= sizeArrAct;
@@ -230,9 +231,12 @@ int Cell::AddCurrentPos(int addVal, int val)
 
 void Cell::Mutation()
 {
-    if(rand() %100 <60)
+    if(rand() %100 <30)
     {
-        int element = rand()%sizeArrAct;
-        arrAct[element] = AddCurrentPos(rand()%5, arrAct[element]);
+        for(int i = 0, element; i < 15; i++)
+        {
+            element = rand()%sizeArrAct;
+            arrAct[element] = AddCurrentPos(rand()%4, arrAct[element]);
+        }
     }
 }

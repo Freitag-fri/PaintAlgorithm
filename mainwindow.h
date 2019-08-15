@@ -51,13 +51,13 @@ private:
     const static int widthWorker = 600;        //ширина окна
     const static int heightWorker = 600;       //высота окна
 
-    const static int widthCell = 25;    //ширина ячейки
-    const static int heightCell = 25;   //высота ячейки
+    const static int widthCell = 10;    //ширина ячейки
+    const static int heightCell = 10;   //высота ячейки
 
     const static int maxPositionWidth = widthWorker/widthCell;          //количесво ячеек
     const static int maxPositionHeight = heightWorker/heightCell;
 
-    const static int quantityCell = 25;         //количесво обектов
+    const static int quantityCell = 100;         //количесво обектов
     Cell *CellObj[quantityCell];
 
     const int routeWidth[8] = {0, 1, 1, 1, 0, -1, -1, -1};     // ->

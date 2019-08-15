@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <windows.h>
+#include "ui_mainwindow.h"
 
 void MainWindow::MotionOption()
 {  //bool hod = false;
@@ -24,17 +25,25 @@ void MainWindow::MotionOption()
         nextObj = Route(obj, index, &Width, &Height);           //получаем следующий обект
         CellObj[obj]->NextObj(nextObj, Width, Height);
 
-        if ( CellObj[obj]->numberPasses >=40 && !CellObj[obj]->GetMoveIsOver())       //закончен ход
+        if ( CellObj[obj]->numberPasses >=30 && !CellObj[obj]->GetMoveIsOver())       //закончен ход
         {
             CellObj[obj]->numberPasses = 0;
             CellObj[obj]->HealtDown(1);
             CellObj[obj]->SetMoveIsOver(false);
+
+//            MainWindow::update();
+//            QApplication::processEvents();
+//            Sleep(20);
         }
         else if (!CellObj[obj]->GetMoveIsOver())
              obj--;
         else
         {
             CellObj[obj]->SetMoveIsOver(false);
+
+//            MainWindow::update();
+//            QApplication::processEvents();
+//            Sleep(20);
         }
     }
 }

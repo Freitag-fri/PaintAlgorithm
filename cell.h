@@ -70,7 +70,7 @@ private:
     bool moveIsOver;            // закончен ход
 
 
-    static const int sizeArrAct = 25;
+    static const int sizeArrAct = 50;
     int arrAct[sizeArrAct];
 };
 

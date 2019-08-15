@@ -37,13 +37,13 @@ void MainWindow::paintEvent(QPaintEvent *)
         }
     }
     paint.setPen(Qt::black);
-    for (int i = 0; i < quantityCell; i++)
-    {
-        //         if (!CellObj[i]->GetHealth()) continue;
-        //         paint.drawRect(QRect(CellObj[i]->GetWidth(), CellObj[i]->GetHeight(), widthCell, heightCell));
-        if (CellObj[i]->GetLife())
-            paint.drawText(CellObj[i]->GetWidthPos()*widthCell+widthCell/2, CellObj[i]->GetHeightPos()*heightCell+heightCell/2, QString::number(CellObj[i]->GetHealth()));
-    }
+//    for (int i = 0; i < quantityCell; i++)
+//    {
+//        //         if (!CellObj[i]->GetHealth()) continue;
+//        //         paint.drawRect(QRect(CellObj[i]->GetWidth(), CellObj[i]->GetHeight(), widthCell, heightCell));
+//        if (CellObj[i]->GetLife())
+//            paint.drawText(CellObj[i]->GetWidthPos()*widthCell+widthCell/2, CellObj[i]->GetHeightPos()*heightCell+heightCell/2, QString::number(CellObj[i]->GetHealth()));
+//    }
 
 
 
@@ -59,7 +59,7 @@ void MainWindow::on_upButton_clicked()
         MotionOption();
         MainWindow::update();
         QApplication::processEvents();
-        Sleep(5);
+        Sleep(2);
     }
 }
 
@@ -97,15 +97,15 @@ void MainWindow::FirstInstallElement()
     for (int i = 0; i < quantityCell; i++)
         SetObj(i);
 
-    for (int i = 0; i < 35; i++)
+    for (int i = 0; i < 300; i++)
         SetFood();
 }
 
 void MainWindow::SetLet()
 {
-    for (int i = 10; i < 14; i++)
+    for (int i = 28; i < 34; i++)
     {
-        for (int c = 10; c < 14; c++)
+        for (int c = 28; c < 34; c++)
         {
             arrPosition[i][c] = cageLet;
         }
@@ -159,8 +159,8 @@ void MainWindow::Breed()        //новое поколение
     ui->textEdit->append((QString::number(series)));
     ui->textEdit_2->setText((QString::number(generation)));
     series =0;                      //обнуление количества ходов
-    Cell testOBg[5];
-    for (int i = 0, n = 0; i < 5; n++)
+    Cell testOBg[quantityCell/5];
+    for (int i = 0, n = 0; i < quantityCell/5; n++)
     {
         if (CellObj[n]->GetLife())
         {
@@ -170,14 +170,14 @@ void MainWindow::Breed()        //новое поколение
         }
     }
 
-    for (int i = 0; i < 25; i++)
+    for (int i = 0; i < quantityCell; i++)
     {
         *CellObj[i] = testOBg[i/5];
         SetCoordinates(i);
         CellObj[i]->Mutation();
     }
     CellObj[0]->deadCell = 0;
-    MainWindow::update();
+   // MainWindow::update();
 }
 
 void MainWindow::SetCoordinates(int i)
