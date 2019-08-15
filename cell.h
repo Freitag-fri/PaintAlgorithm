@@ -7,54 +7,61 @@ class Cell
 {
 
 public:
-    Cell(int widthPosition, int heightPosition, int sizeCell);
+    Cell(int widthPosition, int heightPosition/*, int sizeCell*/);
     Cell();
+    void SetObj();
 
+    //void SetWidth(int width, int widthCell);
 
-    void SetWidth(int width, int widthCell);
+    //void SetHeight(int height, int heightCell);
 
-    void SetHeight(int height, int heightCell);
-
-    void HealtUp(/*int health*/);
+    void HealtUp(int health);
     void HealtDown(int health);
-    void Move(int nextObj, int width, int height);
+    void Move(int nextObj, int width, int height);  //перемещение
+    void Grab (int nextObj, int width, int heigh);  //схватить
 
 
     int GetWidthPos();
     int GetHeightPos();
-    int GetWidth();
-    int GetHeight();
+    //int GetWidth();
+    //int GetHeight();
     int GetHealth();
     bool GetDeadCell();
     bool GetLife();
     bool GetMoveIsOver();
     void SetMoveIsOver(bool n);
+    void SetWidthPos(int pos);
+    void SetHeightPos(int pos);
 
     int RandMove();
 
     void NextObj(int obj, int , int);
 
-
+    void Mutation();
 
     static int deadCell;
 
     Cell& operator =(Cell& obj) // Оператор присваивания
-        {
-            this->life = obj.life;
-            this->health = obj.health;
-            return *this;
-        }
+    {
+        for(int i = 0; i < sizeArrAct; i++)
+            this->arrAct[i] = obj.arrAct[i];
+        SetObj();
+        return *this;
+    }
+
+    int numberPasses = 0;
 
 private:
     enum act {actStand, actMove, actLook, actgGrab, actPass};    //возможные действия
     int act;                    //кокое действие обект совершает
-    int width;
-    int height;
+    //int width;
+    //int height;
     int health;
     int widthPosition;
     int heightPosition;
     int currentPos;             //слудующий элемент в массиве
-    void AddCurrentPos(int val);
+    int AddCurrentPos(int addVal, int val);
+
 
 
 

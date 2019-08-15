@@ -36,7 +36,7 @@ void MainWindow::paintEvent(QPaintEvent *)
             paint.drawRect(QRect(i*widthCell, c*heightCell, widthCell, heightCell));
         }
     }
-
+    paint.setPen(Qt::black);
     for (int i = 0; i < quantityCell; i++)
     {
         //         if (!CellObj[i]->GetHealth()) continue;
@@ -51,16 +51,16 @@ void MainWindow::paintEvent(QPaintEvent *)
 
 void MainWindow::on_upButton_clicked()
 {
+
     // Up(0);
     while(true)
     {
+        series++;
         MotionOption();
         MainWindow::update();
         QApplication::processEvents();
-        Sleep(100);
-
+        Sleep(5);
     }
-
 }
 
 void MainWindow::on_rightButton_clicked()
@@ -97,15 +97,15 @@ void MainWindow::FirstInstallElement()
     for (int i = 0; i < quantityCell; i++)
         SetObj(i);
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 35; i++)
         SetFood();
 }
 
 void MainWindow::SetLet()
 {
-    for (int i = 2; i < 4; i++)
+    for (int i = 10; i < 14; i++)
     {
-        for (int c = 2; c < 4; c++)
+        for (int c = 10; c < 14; c++)
         {
             arrPosition[i][c] = cageLet;
         }
@@ -128,13 +128,13 @@ void MainWindow::SetObj(int pos)
 
     do
     {
-        widthRand = rand() %12;
-        heightRand = rand() %12;
+        widthRand = rand() %maxPositionWidth;
+        heightRand = rand() %maxPositionHeight;
     }
     while(arrPosition[widthRand][heightRand] != cageNull);
 
     arrPosition[widthRand][heightRand] = cageObj;
-    Cell *test = new Cell(widthRand, heightRand, widthCell);
+    Cell *test = new Cell(widthRand, heightRand/*, widthCell*/);
     CellObj[pos] = test;
 }
 
@@ -145,8 +145,8 @@ void MainWindow::SetFood()
 
     do
     {
-        widthRand = rand() %12;
-        heightRand = rand() %12;
+        widthRand = rand() %maxPositionWidth;
+        heightRand = rand() %maxPositionHeight;
     }
     while(arrPosition[widthRand][heightRand] != cageNull);
 
@@ -155,6 +155,10 @@ void MainWindow::SetFood()
 
 void MainWindow::Breed()        //новое поколение
 {
+    generation++;
+    ui->textEdit->append((QString::number(series)));
+    ui->textEdit_2->setText((QString::number(generation)));
+    series =0;                      //обнуление количества ходов
     Cell testOBg[5];
     for (int i = 0, n = 0; i < 5; n++)
     {
@@ -169,8 +173,32 @@ void MainWindow::Breed()        //новое поколение
     for (int i = 0; i < 25; i++)
     {
         *CellObj[i] = testOBg[i/5];
-        SetObj(i);
+        SetCoordinates(i);
+        CellObj[i]->Mutation();
     }
     CellObj[0]->deadCell = 0;
     MainWindow::update();
+}
+
+void MainWindow::SetCoordinates(int i)
+{
+    int widthRand;
+    int heightRand;
+
+    do
+    {
+        widthRand = rand() %maxPositionWidth;
+        heightRand = rand() %maxPositionHeight;
+    }
+    while(arrPosition[widthRand][heightRand] != cageNull && arrPosition[widthRand][heightRand] != cageFood);
+    CellObj[i]->SetWidthPos(widthRand);
+    CellObj[i]->SetHeightPos(heightRand);
+
+    if(arrPosition[widthRand][heightRand] == cageFood)
+    {
+      CellObj[i]->HealtUp(10);
+      SetFood();
+    }
+
+    arrPosition[widthRand][heightRand] = cageObj;
 }
