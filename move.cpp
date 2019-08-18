@@ -11,6 +11,7 @@ void MainWindow::MotionOption()
 
     for(int obj = 0; obj < quantityCell; obj++)
     {
+
         if(CellObj[obj]->GetDeadCell())       //новое поколение
         {
             Breed();
@@ -23,27 +24,28 @@ void MainWindow::MotionOption()
         index = CellObj[obj]->RandMove();                     //получаем направление
 
         nextObj = Route(obj, index, &Width, &Height);           //получаем следующий обект
+
         CellObj[obj]->NextObj(nextObj, Width, Height);
 
-        if ( CellObj[obj]->numberPasses >=30 && !CellObj[obj]->GetMoveIsOver())       //закончен ход
+        if ( CellObj[obj]->numberPasses >=50 && !CellObj[obj]->GetMoveIsOver())       //закончен ход
         {
             CellObj[obj]->numberPasses = 0;
             CellObj[obj]->HealtDown(1);
             CellObj[obj]->SetMoveIsOver(false);
 
-//            MainWindow::update();
-//            QApplication::processEvents();
-//            Sleep(20);
+            //            MainWindow::update();
+            //            QApplication::processEvents();
+            //            Sleep(20);
         }
         else if (!CellObj[obj]->GetMoveIsOver())
-             obj--;
+            obj--;
         else
         {
             CellObj[obj]->SetMoveIsOver(false);
 
-//            MainWindow::update();
-//            QApplication::processEvents();
-//            Sleep(20);
+            //            MainWindow::update();
+            //            QApplication::processEvents();
+            //            Sleep(20);
         }
     }
 }

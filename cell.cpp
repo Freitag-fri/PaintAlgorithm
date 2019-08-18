@@ -1,6 +1,7 @@
 #include "cell.h"
 #include "mainwindow.h"
 void AddFood();
+void AddVenom();
 
 Cell::Cell(int widthPosition, int heightPosition/*, int sizeCell*/)
 {
@@ -8,7 +9,6 @@ Cell::Cell(int widthPosition, int heightPosition/*, int sizeCell*/)
     {
         arrAct[i] = rand()% sizeArrAct;     //заполнение массива случайными действиями
     }
-
 
     this -> widthPosition = widthPosition;
     this -> heightPosition = heightPosition;
@@ -27,8 +27,8 @@ int Cell::deadCell = 0;     //иницилизация статической п
 
 void Cell::SetObj()
 {
-    currentPos = 0;
-    health = 40;
+    currentPos = rand()% sizeArrAct;
+    health = 60;
     life = true;
     moveIsOver = false;
 }
@@ -36,10 +36,10 @@ void Cell::SetObj()
 int Cell::RandMove()
 {
     int tempCurrentPos = 0;
-//    if(arrAct[currentPos] == 0)         //стоять на месте
-//    {
-//        act = actStand;
-//    }
+    //    if(arrAct[currentPos] == 0)         //стоять на месте
+    //    {
+    //        act = actStand;
+    //    }
     /*else*/ if (arrAct[currentPos] < 8)    //движение
     {
         act = actMove;
@@ -55,6 +55,10 @@ int Cell::RandMove()
         act = actgGrab;
         tempCurrentPos = arrAct[currentPos] - 16;
     }
+    else if(arrAct[currentPos] == 24)         //стоять на месте
+    {
+        act = actStand;
+    }
     else
     {   act =actPass;
     }
@@ -65,13 +69,13 @@ int Cell::RandMove()
 void Cell::NextObj(int obj, int width, int height)
 {
     numberPasses ++;
-//    if (act == actStand)
-//    {
-//        moveIsOver = true;
-//        currentPos = AddCurrentPos(1, currentPos);       //увеличение позиции массива на 1
-//        HealtDown(1);
-//    }
-    /*else */if (act == actMove)
+    if (act == actStand)
+    {
+        moveIsOver = true;
+        currentPos = AddCurrentPos(1, currentPos);       //увеличение позиции массива на 1
+        HealtDown(1);
+    }
+    else if (act == actMove)
     {
         currentPos = AddCurrentPos(obj, currentPos);
         moveIsOver = true;
@@ -91,7 +95,7 @@ void Cell::NextObj(int obj, int width, int height)
     }
     else if (act == actPass)
     {
-      currentPos = AddCurrentPos(arrAct[obj], currentPos);
+        currentPos = AddCurrentPos(arrAct[currentPos], currentPos);
     }
 }
 
@@ -109,6 +113,15 @@ void Cell::Move(int nextObj, int width, int height)
         heightPosition +=height;
         MainWindow::arrPosition[widthPosition][heightPosition]=cageObj;
     }
+    else if(nextObj == cageVenom)
+    {
+        MainWindow::arrPosition[widthPosition][heightPosition]=cageNull;
+        widthPosition +=width;
+        heightPosition +=height;
+        HealtDown(health-1);
+        AddVenom();
+        MainWindow::venomKill++;
+    }
 }
 
 void Cell::Grab (int nextObj, int width, int heigh)
@@ -119,27 +132,29 @@ void Cell::Grab (int nextObj, int width, int heigh)
         AddFood();
         MainWindow::arrPosition[widthPosition+width][heightPosition+heigh]=cageNull;
     }
+    if(nextObj == cageVenom)
+    {
+        MainWindow::venomEat++;
+        HealtUp(15);
+        AddVenom();
+        MainWindow::arrPosition[widthPosition+width][heightPosition+heigh]=cageNull;
+    }
 }
 
 void AddFood()
 {
-  MainWindow::SetFood();
+    MainWindow::SetFood();
+}
+
+void AddVenom()
+{
+    MainWindow::SetVenom();
 }
 
 int Cell::GetHealth()
 {
     return health;
 }
-
-//int Cell::GetWidth()
-//{
-//    return width;
-//}
-
-//int Cell::GetHeight()
-//{
-//    return height;
-//}
 
 int Cell::GetHeightPos()
 {
@@ -153,15 +168,17 @@ int Cell::GetWidthPos()
 
 bool Cell::GetDeadCell()
 {
-    if (deadCell == 80)
+    if (deadCell == 72)
         return true;
     else
         return false;
 }
 
-void Cell::HealtUp(int healt)
+void Cell::HealtUp(int health)
 {
-    this -> health += healt;
+    this -> health += health;
+    if (this ->health >200)
+        this ->health = 200;
 }
 
 void Cell::HealtDown(int health)
@@ -187,56 +204,36 @@ bool Cell::GetMoveIsOver()
 
 void Cell::SetMoveIsOver(bool n)
 {
-   moveIsOver = n;
+    moveIsOver = n;
 }
 
 void Cell::SetWidthPos(int widthPosition)
 {
-   this->widthPosition = widthPosition;
+    this->widthPosition = widthPosition;
 }
 void Cell::SetHeightPos(int heightPosition)
 {
-   this->heightPosition = heightPosition;
+    this->heightPosition = heightPosition;
 }
-
-//void Cell::SetWidth(int width, int widthCell)
-//{
-//    widthPosition = width/widthCell;
-//    this ->width = width;
-//    HealtDown(1);
-
-//    //    if (health <=0)
-//    //        life = false;
-//}
-
-//void Cell::SetHeight(int height, int heightCell)
-//{
-//    heightPosition = height/heightCell;
-//    this ->height = height;
-//    HealtDown(1);
-
-//    //    if (health <=0)
-//    //        life = false;
-//}
 
 int Cell::AddCurrentPos(int addVal, int val)
 {
     int temp = val+addVal;
     if (temp > sizeArrAct-1)
     {
-      temp -= sizeArrAct;
+        temp -= sizeArrAct;
     }
     return temp;
 }
 
 void Cell::Mutation()
 {
-    if(rand() %100 <30)
+    if(rand() %100 <40)
     {
-        for(int i = 0, element; i < 15; i++)
+        for(int i = 0, element; i < 5; i++)
         {
             element = rand()%sizeArrAct;
-            arrAct[element] = AddCurrentPos(rand()%4, arrAct[element]);
+            arrAct[element] = AddCurrentPos(rand()%6, arrAct[element]);
         }
     }
 }

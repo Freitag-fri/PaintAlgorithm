@@ -11,10 +11,6 @@ public:
     Cell();
     void SetObj();
 
-    //void SetWidth(int width, int widthCell);
-
-    //void SetHeight(int height, int heightCell);
-
     void HealtUp(int health);
     void HealtDown(int health);
     void Move(int nextObj, int width, int height);  //перемещение
@@ -23,8 +19,6 @@ public:
 
     int GetWidthPos();
     int GetHeightPos();
-    //int GetWidth();
-    //int GetHeight();
     int GetHealth();
     bool GetDeadCell();
     bool GetLife();
@@ -54,21 +48,14 @@ public:
 private:
     enum act {actStand, actMove, actLook, actgGrab, actPass};    //возможные действия
     int act;                    //кокое действие обект совершает
-    //int width;
-    //int height;
     int health;
     int widthPosition;
     int heightPosition;
     int currentPos;             //слудующий элемент в массиве
     int AddCurrentPos(int addVal, int val);
 
-
-
-
-
     bool life;                  //жив или нет обект
     bool moveIsOver;            // закончен ход
-
 
     static const int sizeArrAct = 50;
     int arrAct[sizeArrAct];

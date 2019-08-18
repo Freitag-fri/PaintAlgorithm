@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 int MainWindow::arrPosition[maxPositionWidth][maxPositionHeight];       //поределение статического массива позиций поля
+int MainWindow::venomKill = 0;
+int MainWindow::venomEat = 0;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,8 +33,9 @@ void MainWindow::paintEvent(QPaintEvent *)
         {
             if (arrPosition[i][c] == cageNull) continue;
             else if (arrPosition[i][c] == cageObj) paint.setPen(Qt::black);
-            else if (arrPosition[i][c] == cageLet) paint.setPen(Qt::red);
+            else if (arrPosition[i][c] == cageLet) paint.setPen(Qt::blue);
             else if (arrPosition[i][c] == cageFood) paint.setPen(Qt::green);
+            else if (arrPosition[i][c] == cageVenom) paint.setPen(Qt::red);
             paint.drawRect(QRect(i*widthCell, c*heightCell, widthCell, heightCell));
         }
     }
@@ -55,11 +58,12 @@ void MainWindow::on_upButton_clicked()
     // Up(0);
     while(true)
     {
+        ui->textEdit_3->setText((QString::number(series)));
         series++;
         MotionOption();
         MainWindow::update();
         QApplication::processEvents();
-        Sleep(2);
+       // Sleep(2);
     }
 }
 
@@ -97,17 +101,28 @@ void MainWindow::FirstInstallElement()
     for (int i = 0; i < quantityCell; i++)
         SetObj(i);
 
-    for (int i = 0; i < 300; i++)
+    for (int i = 0; i < 40; i++)
         SetFood();
+
+    for (int i = 0; i < 35; i++)
+        SetVenom();
 }
 
 void MainWindow::SetLet()
 {
-    for (int i = 28; i < 34; i++)
+    for (int i = maxPositionWidth-4; i < maxPositionWidth; i++)
     {
-        for (int c = 28; c < 34; c++)
+
+            arrPosition[i][10] = cageLet;
+            arrPosition[10][i] = cageLet;
+    }
+
+    for (int i = 10; i < 19; i++)
+    {
+        for (int c = 10; c < 11; c++)
         {
             arrPosition[i][c] = cageLet;
+            arrPosition[c][i] = cageLet;
         }
     }
 
@@ -120,6 +135,8 @@ void MainWindow::SetLet()
         }
     }
 }
+
+
 
 void MainWindow::SetObj(int pos)
 {
@@ -153,14 +170,33 @@ void MainWindow::SetFood()
     arrPosition[widthRand][heightRand] = cageFood;
 }
 
+void MainWindow::SetVenom()
+{
+    int widthRand;
+    int heightRand;
+
+    do
+    {
+        widthRand = rand() %maxPositionWidth;
+        heightRand = rand() %maxPositionHeight;
+    }
+    while(arrPosition[widthRand][heightRand] != cageNull);
+
+    arrPosition[widthRand][heightRand] = cageVenom;
+}
+
 void MainWindow::Breed()        //новое поколение
 {
     generation++;
     ui->textEdit->append((QString::number(series)));
     ui->textEdit_2->setText((QString::number(generation)));
+    ui->textEdit_Kill->append((QString::number(venomKill)));
+    ui->textEdit_Eat->append((QString::number(venomEat)));
+    venomEat = 0;
+    venomKill =0;
     series =0;                      //обнуление количества ходов
-    Cell testOBg[quantityCell/5];
-    for (int i = 0, n = 0; i < quantityCell/5; n++)
+    Cell testOBg[quantityCell/10];
+    for (int i = 0, n = 0; i < quantityCell/10; n++)
     {
         if (CellObj[n]->GetLife())
         {
@@ -172,11 +208,11 @@ void MainWindow::Breed()        //новое поколение
 
     for (int i = 0; i < quantityCell; i++)
     {
-        *CellObj[i] = testOBg[i/5];
+        *CellObj[i] = testOBg[i/10];
         SetCoordinates(i);
         CellObj[i]->Mutation();
     }
-    CellObj[0]->deadCell = 0;
+    Cell::deadCell = 0;
    // MainWindow::update();
 }
 

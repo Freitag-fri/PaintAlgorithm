@@ -7,7 +7,7 @@
 #include <time.h>
 #include <windows.h>
 
-enum obje {cageNull = 1, cageLet, cageObj, cageFood};   //обекты
+enum obje {cageNull = 1, cageLet, cageObj, cageFood, cageVenom};   //обекты
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
     friend void AddFood();
+    friend void AddVenom();
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -39,6 +40,7 @@ private slots:
     void SetLet();
     void SetObj(int pos);
     static void SetFood();
+    static void SetVenom();
     void Breed();                   //новое поколение
     void SetCoordinates(int i);
 
@@ -51,13 +53,13 @@ private:
     const static int widthWorker = 600;        //ширина окна
     const static int heightWorker = 600;       //высота окна
 
-    const static int widthCell = 10;    //ширина ячейки
-    const static int heightCell = 10;   //высота ячейки
+    const static int widthCell = 20;    //ширина ячейки
+    const static int heightCell = 20;   //высота ячейки
 
     const static int maxPositionWidth = widthWorker/widthCell;          //количесво ячеек
     const static int maxPositionHeight = heightWorker/heightCell;
 
-    const static int quantityCell = 100;         //количесво обектов
+    const static int quantityCell = 80;         //количесво обектов
     Cell *CellObj[quantityCell];
 
     const int routeWidth[8] = {0, 1, 1, 1, 0, -1, -1, -1};     // ->
@@ -68,6 +70,8 @@ private:
     int generation = 0;
 
 public:
+    static int venomKill;
+    static int venomEat;
     static int arrPosition[maxPositionWidth][maxPositionHeight];
 };
 
